@@ -248,8 +248,11 @@ source_group(3rdparty\\z FILES ${z_src})
 
 add_definitions( -DPBRT_PROBES_NONE -DPBRT_HAS_OPENEXR -DZLIB_WINAPI -D_CRT_SECURE_NO_WARNINGS )
 
+include(HeadCMakeFileLists.txt)
+source_group(include FILES ${core_head})
+
 include_directories(. core 3rdparty)
-add_executable(pbrt ${renderer_src} ${lib_src})
+add_executable(pbrt ${renderer_src} ${lib_src} ${core_head})
 
 if(USE_CUDA_RENDER)
     add_definitions(-DHAS_CUDA_RENDER)
