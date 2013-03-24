@@ -1206,10 +1206,24 @@ Scene *RenderOptions::MakeScene() {
     return scene;
 }
 
+#ifdef HAS_CUDA_RENDER
+Renderer* CreateCudaRenderer(Sampler *sampler, Camera *camera, const ParamSet &params);
+#endif
 
 Renderer *RenderOptions::MakeRenderer() const {
     Renderer *renderer = NULL;
     Camera *camera = MakeCamera();
+
+#ifdef HAS_CUDA_RENDER
+    bool useCuda=RendererParams.FindOneBool("usecuda", false);
+    if (useCuda){
+		Sampler *sampler = MakeSampler(SamplerName, SamplerParams, camera->film, camera);
+		renderer = CreateCudaRenderer(sampler, camera, RendererParams);
+        RendererParams.ReportUnused();
+        return renderer;
+	}
+#endif
+
     if (RendererName == "metropolis") {
         renderer = CreateMetropolisRenderer(RendererParams, camera);
         RendererParams.ReportUnused();
