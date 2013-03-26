@@ -1217,6 +1217,7 @@ Renderer *RenderOptions::MakeRenderer() const {
 #ifdef HAS_CUDA_RENDER
     bool useCuda=RendererParams.FindOneBool("usecuda", false);
     if (useCuda){
+		PbrtOptions.useCudaRender=true;
 		Sampler *sampler = MakeSampler(SamplerName, SamplerParams, camera->film, camera);
 		renderer = CreateCudaRenderer(sampler, camera, RendererParams);
         RendererParams.ReportUnused();
