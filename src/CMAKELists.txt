@@ -256,6 +256,7 @@ add_executable(pbrt ${renderer_src} ${lib_src} ${core_head})
 
 if(USE_CUDA_RENDER)
     add_definitions(-DHAS_CUDA_RENDER)
+    include_directories(${CMAKE_SOURCE_DIR})
     target_link_libraries (pbrt cuda_render)
     message(USE_CUDA)
 endif(USE_CUDA_RENDER)
