@@ -71,6 +71,25 @@ TriangleMesh::TriangleMesh(const Transform *o2w, const Transform *w2o,
         p[i] = (*ObjectToWorld)(P[i]);
 }
 
+TriangleMesh::TriangleMesh(TriangleMesh&& tm)
+    :Shape(std::move(tm))
+{
+    ntris=tm.ntris;
+    nverts=tm.nverts;
+    vertexIndex=tm.vertexIndex;
+    p=tm.p;
+    n=tm.n;
+    s=tm.s;
+    uvs=tm.uvs;
+    alphaTexture=tm.alphaTexture;
+
+    tm.vertexIndex=nullptr;
+    tm.p=nullptr;
+    tm.n=nullptr;
+    tm.s=nullptr;
+    tm.uvs=nullptr;
+    tm.alphaTexture=nullptr;
+}
 
 TriangleMesh::~TriangleMesh() {
     delete[] vertexIndex;

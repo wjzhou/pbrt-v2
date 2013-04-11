@@ -49,6 +49,7 @@ public:
                  int ntris, int nverts, const int *vptr,
                  const Point *P, const Normal *N, const Vector *S,
                  const float *uv, const Reference<Texture<float> > &atex);
+    TriangleMesh(TriangleMesh &&);
     ~TriangleMesh();
     BBox ObjectBound() const;
     BBox WorldBound() const;
