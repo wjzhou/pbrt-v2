@@ -47,6 +47,15 @@ Shape::Shape(const Transform *o2w, const Transform *w2o, bool ro)
     PBRT_CREATED_SHAPE(this);
 }
 
+Shape::Shape(Shape&& s)
+    :ObjectToWorld(s.ObjectToWorld), WorldToObject(s.WorldToObject),
+    ReverseOrientation(s.ReverseOrientation), 
+    TransformSwapsHandedness(s.TransformSwapsHandedness),
+    shapeId(s.shapeId)
+{
+    s.ObjectToWorld=s.WorldToObject=nullptr;
+}
+
 
 uint32_t Shape::nextshapeId = 1;
 BBox Shape::WorldBound() const {

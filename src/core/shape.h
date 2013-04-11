@@ -48,6 +48,7 @@ class Shape : public ReferenceCounted {
 public:
     // Shape Interface
     Shape(const Transform *o2w, const Transform *w2o, bool ro);
+    Shape(Shape&&);
     virtual ~Shape();
     virtual BBox ObjectBound() const = 0;
     virtual BBox WorldBound() const;
