@@ -124,6 +124,11 @@
 #include "volumes/exponential.h"
 #include "volumes/homogeneous.h"
 #include "volumes/volumegrid.h"
+
+#ifdef HAS_CUDA_RENDER
+#include "cuda_render/cudaapi.h"
+#endif
+
 #include <map>
  #if (_MSC_VER >= 1400)
  #include <stdio.h>
@@ -683,6 +688,11 @@ void pbrtInit(const Options &opt) {
     renderOptions = new RenderOptions;
     graphicsState = GraphicsState();
     SampledSpectrum::Init();
+#ifdef HAS_CUDA_RENDER
+    if (opt.useCudaRender){
+        CudaRenderInit();
+    }
+#endif
 }
 
 
@@ -1001,6 +1011,12 @@ void pbrtShape(const string &name, const ParamSet &params) {
         Reference<Material> mtl = graphicsState.CreateMaterial(params);
         params.ReportUnused();
 
+#ifdef HAS_CUDA_RENDER
+        if (PbrtOptions.useCudaRender){
+            CreateCudaShape(name, shape, renderOptions->currentInstance, mtl.GetPtr());
+        }
+#endif
+
         // Possibly create area light for shape
         if (graphicsState.areaLight != "") {
             area = MakeAreaLight(graphicsState.areaLight, curTransform[0],
@@ -1008,6 +1024,11 @@ void pbrtShape(const string &name, const ParamSet &params) {
         }
         prim = new GeometricPrimitive(shape, mtl, area);
     } else {
+#ifdef HAS_CUDA_RENDER
+        if (PbrtOptions.useCudaRender){
+            Warning("Animated Shape not supported by CudaRender");
+        }
+#endif
         // Create primitive for animated shape
 
         // Create initial _Shape_ for animated shape
@@ -1206,23 +1227,20 @@ Scene *RenderOptions::MakeScene() {
     return scene;
 }
 
-#ifdef HAS_CUDA_RENDER
-Renderer* CreateCudaRenderer(Sampler *sampler, Camera *camera, const ParamSet &params);
-#endif
 
 Renderer *RenderOptions::MakeRenderer() const {
     Renderer *renderer = NULL;
     Camera *camera = MakeCamera();
 
 #ifdef HAS_CUDA_RENDER
-    bool useCuda=RendererParams.FindOneBool("usecuda", false);
-    if (useCuda){
-		PbrtOptions.useCudaRender=true;
-		Sampler *sampler = MakeSampler(SamplerName, SamplerParams, camera->film, camera);
-		renderer = CreateCudaRenderer(sampler, camera, RendererParams);
+    //This is called in world end, it is too late to init the cuda context here
+    //Move the init code to world begin
+    if (PbrtOptions.useCudaRender){
+        Sampler *sampler = MakeSampler(SamplerName, SamplerParams, camera->film, camera);
+        renderer = CreateCudaRenderer(sampler, camera, RendererParams);
         RendererParams.ReportUnused();
         return renderer;
-	}
+    }
 #endif
 
     if (RendererName == "metropolis") {
