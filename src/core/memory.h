@@ -82,6 +82,9 @@ public:
     const T *operator->() const { return ptr; }
     operator bool() const { return ptr != NULL; }
     const T *GetPtr() const { return ptr; }
+    /* this one is not thread-safe*/
+    T* release() {Assert(ptr->nReferences==1); T* p=ptr;
+        ptr->nReferences=0; ptr=0; return p;}
 private:
     T *ptr;
 };
