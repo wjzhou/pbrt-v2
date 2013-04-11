@@ -124,7 +124,7 @@ template <typename T> struct ParamSetItem;
 struct Options {
     Options() { nCores = 0;
                 quickRender = quiet = openWindow = verbose = false;
-                imageFile = ""; }
+                imageFile = ""; useCudaRender=false; }
     int nCores;
     bool quickRender;
     bool quiet, verbose;
