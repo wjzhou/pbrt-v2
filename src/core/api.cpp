@@ -1165,6 +1165,11 @@ void pbrtObjectInstance(const string &name) {
     Reference<Primitive> prim =
         new TransformedPrimitive(in[0], animatedWorldToInstance);
     renderOptions->primitives.push_back(prim);
+#ifdef HAS_CUDA_RENDER
+    if (PbrtOptions.useCudaRender){
+        CudaObjectInstance(&in, curTransform[0]);
+    }
+#endif
 }
 
 
