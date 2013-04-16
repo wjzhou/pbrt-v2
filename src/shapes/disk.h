@@ -42,6 +42,7 @@
 // Disk Declarations
 class Disk : public Shape {
 public:
+    friend class CudaDisk;
     // Disk Public Methods
     Disk(const Transform *o2w, const Transform *w2o, bool ro, float height,
          float radius, float innerRadius, float phiMax);
