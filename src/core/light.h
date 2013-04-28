@@ -155,6 +155,7 @@ private:
     float sumArea;
     vector<float> areas;
     Distribution1D *areaDistribution;
+friend class CudaLight;
 };
 
 

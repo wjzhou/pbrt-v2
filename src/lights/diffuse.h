@@ -63,6 +63,7 @@ protected:
     Spectrum Lemit;
     ShapeSet *shapeSet;
     float area;
+friend class CudaLight;
 };
 
 

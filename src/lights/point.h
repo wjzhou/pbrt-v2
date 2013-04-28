@@ -59,6 +59,7 @@ private:
     // PointLight Private Data
     Point lightPos;
     Spectrum Intensity;
+    friend class CudaLight;
 };
 
 
