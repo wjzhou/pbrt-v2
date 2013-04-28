@@ -56,6 +56,7 @@ private:
     // MatteMaterial Private Data
     Reference<Texture<Spectrum> > Kd;
     Reference<Texture<float> > sigma, bumpMap;
+friend class CudaMatteMaterial;
 };
 
 

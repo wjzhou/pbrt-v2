@@ -55,6 +55,8 @@ public:
 private:
     // Disk Private Data
     float height, radius, innerRadius, phiMax;
+friend class CudaLight;
+friend class CudaDisk;
 };
 
 
