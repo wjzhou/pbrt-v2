@@ -1242,7 +1242,7 @@ Renderer *RenderOptions::MakeRenderer() const {
     //Move the init code to world begin
     if (PbrtOptions.useCudaRender){
         Sampler *sampler = MakeSampler(SamplerName, SamplerParams, camera->film, camera);
-        renderer = CreateCudaRenderer(sampler, camera, RendererParams);
+        renderer = CreateCudaRenderer(sampler, camera, RendererParams, RendererName);
         RendererParams.ReportUnused();
         return renderer;
     }

@@ -81,6 +81,7 @@ private:
     KdNode *nodes;
     NodeData *nodeData;
     uint32_t nNodes, nextFreeNode;
+friend class PhotonMappingRenderer;
 };
 
 
