@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
         else if (!strcmp(argv[i], "--quick")) options.quickRender = true;
         else if (!strcmp(argv[i], "--quiet")) options.quiet = true;
         else if (!strcmp(argv[i], "--verbose")) options.verbose = true;
-        else if (!strcmp(argv[i], "--force_cudarender")) options.useCudaRender=true;
+        else if (!strcmp(argv[i], "--force_cudarender")||!strcmp(argv[i], "-c")) options.useCudaRender=true;
         else if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h")) {
             printf("usage: pbrt [--ncores n] [--outfile filename] [--quick] [--quiet] "
                    "[--verbose] [--help] <filename.pbrt> ...\n");
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
             if (!ParseFile(filenames[i]))
                 Error("Couldn't open scene file \"%s\"", filenames[i].c_str());
     }
-    pbrtCleanup();
+     pbrtCleanup();
     return 0;
 }
 

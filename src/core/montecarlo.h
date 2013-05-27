@@ -240,6 +240,8 @@ private:
     uint32_t *b, *permute;
     PermutedHalton(const PermutedHalton &);
     PermutedHalton &operator=(const PermutedHalton &);
+    uint32_t sumBases;
+    friend class PhotonMappingRenderer;
 };
 
 

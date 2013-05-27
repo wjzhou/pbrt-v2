@@ -59,6 +59,7 @@ private:
     float phiMax;
     float zmin, zmax;
     float thetaMin, thetaMax;
+    friend class CudaSphere;
 };
 
 

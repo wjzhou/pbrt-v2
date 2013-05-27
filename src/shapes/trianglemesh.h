@@ -66,6 +66,7 @@ protected:
     Vector *s;
     float *uvs;
     Reference<Texture<float> > alphaTexture;
+    friend class CudaTriangleMesh;
 };
 
 

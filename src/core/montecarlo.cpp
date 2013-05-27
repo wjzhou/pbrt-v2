@@ -381,7 +381,7 @@ PermutedHalton::PermutedHalton(uint32_t d, RNG &rng) {
     dims = d;
     // Determine bases $b_i$ and their sum
     b = new uint32_t[dims];
-    uint32_t sumBases = 0;
+    sumBases = 0;
     for (uint32_t i = 0; i < dims; ++i) {
         b[i] = primes[i];
         sumBases += b[i];

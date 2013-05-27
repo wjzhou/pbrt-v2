@@ -53,6 +53,7 @@ private:
     // MirrorMaterial Private Data
     Reference<Texture<Spectrum> > Kr;
     Reference<Texture<float> > bumpMap;
+    friend class CudaMirrorMaterial;
 };
 
 

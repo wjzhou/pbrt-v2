@@ -1011,18 +1011,23 @@ void pbrtShape(const string &name, const ParamSet &params) {
         Reference<Material> mtl = graphicsState.CreateMaterial(params);
         params.ReportUnused();
 
-#ifdef HAS_CUDA_RENDER
-        if (PbrtOptions.useCudaRender){
-            CreateCudaShape(name, shape, renderOptions->currentInstance, mtl.GetPtr());
-        }
-#endif
-
         // Possibly create area light for shape
         if (graphicsState.areaLight != "") {
             area = MakeAreaLight(graphicsState.areaLight, curTransform[0],
                                  graphicsState.areaLightParams, shape);
         }
         prim = new GeometricPrimitive(shape, mtl, area);
+#ifdef HAS_CUDA_RENDER
+        if (PbrtOptions.useCudaRender){
+            int lightIndex=-1;
+            // use this as light index, a dirty hack
+            if(area && !renderOptions->currentInstance){
+                lightIndex=renderOptions->lights.size();
+            }
+            CreateCudaShape(name, shape, renderOptions->currentInstance,
+                mtl.GetPtr(), lightIndex); 
+        }
+#endif
     } else {
 #ifdef HAS_CUDA_RENDER
         if (PbrtOptions.useCudaRender){
